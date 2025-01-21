@@ -48,9 +48,9 @@ jobs:
         run: |
           # Log in to Azure using a service principal (from GitHub secrets)
           az login --service-principal \
-                   --username ${{ secrets.AZURE_CLIENT_ID }} \
-                   --password ${{ secrets.AZURE_CLIENT_SECRET }} \
-                   --tenant ${{ secrets.AZURE_TENANT_ID }}
+                   --username "${{ secrets.AZURE_CLIENT_ID }}" \
+                   --password "${{ secrets.AZURE_CLIENT_SECRET }}" \
+                   --tenant "${{ secrets.AZURE_TENANT_ID }}"
 
       - name: Deploy to Azure App Service
         run: |
