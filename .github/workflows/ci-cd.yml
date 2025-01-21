@@ -44,18 +44,6 @@ jobs:
           # Install Azure CLI
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
-      - name: Install jq
-        run: |
-          # Check if jq is installed, if not, install it
-          if ! command -v jq &> /dev/null
-          then
-            echo "jq not found, installing..."
-            sudo apt-get update
-            sudo apt-get install jq -y
-          else
-            echo "jq is already installed."
-          fi
-
       - name: Log in to Azure CLI
         run: |
           az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID}} --password ${{ secrets.AZURE_CLIENT_SECRET}} --tenant ${{ secrets.AZURE_TENANT_ID}}
