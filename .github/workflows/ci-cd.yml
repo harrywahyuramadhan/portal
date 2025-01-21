@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:  
+  workflow_dispatch:
 
 jobs:
   build:
@@ -44,15 +44,32 @@ jobs:
           # Install Azure CLI
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
+      - name: Check if jq is installed
+        run: |
+          if ! command -v jq &> /dev/null
+          then
+            echo "jq not found, installing..."
+            sudo apt-get update
+            sudo apt-get install jq -y
+          else
+            echo "jq is already installed."
+          fi
+
       - name: Log in to Azure CLI
         run: |
           echo "${{ secrets.AZURE_CREDENTIALS }}" > azure-credentials.json
-          az login --service-principal --username $(jq -r .appId azure-credentials.json) --password $(jq -r .password azure-credentials.json) --tenant $(jq -r .tenant azure-credentials.json)
+          az login --service-principal \
+                   --username $(jq -r .appId azure-credentials.json) \
+                   --password $(jq -r .password azure-credentials.json) \
+                   --tenant $(jq -r .tenant azure-credentials.json)
 
       - name: Deploy to Azure App Service
         run: |
           # Deploy the containerized app to Azure App Service
-          az webapp create --resource-group harrywahyuramadhan1 --plan flexidev-webapp --name webapp-flexidev --deployment-container-image-name ${{ secrets.DOCKER_USERNAME }}/vue-app:latest
+          az webapp create --resource-group harrywahyuramadhan1 \
+                           --plan flexidev-webapp \
+                           --name webapp-flexidev \
+                           --deployment-container-image-name ${{ secrets.DOCKER_USERNAME }}/vue-app:latest
 
       - name: Deployment successful
         run: echo "Application deployed to Azure App Service"
