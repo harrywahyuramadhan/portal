@@ -58,7 +58,7 @@ jobs:
       
       - name: Deploy to Azure App Service
         run: |
-          az webapp create --resource-group <your-resource-group> --plan <your-app-service-plan> --name <your-app-service-name> --deployment-container-image-name ${{ secrets.DOCKER_USERNAME }}/vue-app:latest
+          az webapp create --resource-group harrywahyuramadhan1 --plan flexidev-webapp --name webapp-flexidev --deployment-container-image-name ${{ secrets.DOCKER_USERNAME }}/vue-app:latest
 
       
       - name: Deployment successful
